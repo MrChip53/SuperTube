@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="SuperTube.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SuperTube"
+    Shell.FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <Tab Title="Search">
+            <ShellContent
+                x:Name="searchTabPage"
+                Title="Search"
+                ContentTemplate="{DataTemplate local:MainPage}"
+                Route="Search" 
+            />
+        </Tab>
+        <Tab Title="Favorites">
+            <ShellContent
+                Title="Favorites"
+                ContentTemplate="{DataTemplate local:Home}"
+                Route="Favorites" 
+            />
+        </Tab>
+        <Tab Title="Downloads">
+            <ShellContent
+                Title="Downloads"
+                ContentTemplate="{DataTemplate local:Home}"
+                Route="Downloads" 
+            />
+        </Tab>
+        <Tab Title="Settings">
+            <ShellContent
+                Title="Settings"
+                ContentTemplate="{DataTemplate local:Home}"
+                Route="Settings" 
+            />
+        </Tab>
+    </TabBar>
+
+</Shell>
