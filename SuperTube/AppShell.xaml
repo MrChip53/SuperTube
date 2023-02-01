@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <Tab Title="Search">
+        <Tab Title="Search" Icon="magnify.svg">
             <ShellContent
                 x:Name="searchTabPage"
                 Title="Search"
@@ -15,21 +15,21 @@
                 Route="Search" 
             />
         </Tab>
-        <Tab Title="Favorites">
+        <Tab Title="Favorites" Icon="heart.svg">
             <ShellContent
                 Title="Favorites"
                 ContentTemplate="{DataTemplate local:Home}"
                 Route="Favorites" 
             />
         </Tab>
-        <Tab Title="Downloads">
+        <Tab Title="Downloads" Icon="download.svg">
             <ShellContent
                 Title="Downloads"
                 ContentTemplate="{DataTemplate local:Home}"
                 Route="Downloads" 
             />
         </Tab>
-        <Tab Title="Settings">
+        <Tab Title="Settings" Icon="cog.svg">
             <ShellContent
                 Title="Settings"
                 ContentTemplate="{DataTemplate local:Home}"

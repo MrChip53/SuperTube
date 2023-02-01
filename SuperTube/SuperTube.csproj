@@ -49,6 +49,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\cog.svg" />
+	  <None Remove="Resources\Images\download.svg" />
+	  <None Remove="Resources\Images\heart.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Update="Home.xaml.cs">
 	    <DependentUpon>Home.xaml</DependentUpon>
 	  </Compile>
