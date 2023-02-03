@@ -33,9 +33,6 @@ jobs:
       - name: Build MAUI Android
         run: dotnet publish SuperTube/SuperTube.csproj -c Release -f net6.0-android --no-restore
 
-      - name: Set SUPERTUBE_VERSION
-        run: echo "SUPERTUBE_VERSION=$(echo ${GITHUB_REF#refs/tags/v} | tr / -)" >> $GITHUB_ENV
-
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
