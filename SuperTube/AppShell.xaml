@@ -11,7 +11,7 @@
             <ShellContent
                 x:Name="searchTabPage"
                 Title="Search"
-                ContentTemplate="{DataTemplate local:MainPage}"
+                ContentTemplate="{DataTemplate local:SearchPage}"
                 Route="Search" 
             />
         </Tab>
