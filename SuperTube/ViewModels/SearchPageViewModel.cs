@@ -1,4 +1,5 @@
-﻿using SuperTube.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using SuperTube.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +19,10 @@ namespace SuperTube.ViewModels
     internal class SearchPageViewModel : INotifyPropertyChanged
     {
         string _searchTerm = null;
-        bool _isSearching = false;
         List<SearchResult> _searchResults = new List<SearchResult>();
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IAsyncCommand<string> PerformSearch => new AsyncCommand<string>(ExecuteSearchAsync, CanExecuteSearch);
+        public IAsyncRelayCommand PerformSearch { get; }
 
         public string SearchTerm
         {
@@ -32,19 +32,6 @@ namespace SuperTube.ViewModels
                 if (_searchTerm != value)
                 {
                     _searchTerm = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public bool IsSearching
-        {
-            get => _isSearching;
-            set
-            {
-                if (_isSearching != value)
-                {
-                    _isSearching = value;
                     OnPropertyChanged();
                 }
             }
@@ -63,17 +50,14 @@ namespace SuperTube.ViewModels
             }
         }
 
-        private async Task ExecuteSearchAsync(string query)
+        private async Task ExecuteSearchAsync()
         {
             // TODO move somewhere else
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.UserAgent.Clear();
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36");
 
-            SearchTerm = null;
-            IsSearching = true;
-
-            using (var response = await client.GetAsync("https://9gag.com/v1/search-posts?query=" + query))
+            using (var response = await client.GetAsync("https://9gag.com/v1/search-posts?query=" + SearchTerm))
             {
                 var json = await response.Content.ReadAsStringAsync();
 
@@ -100,20 +84,16 @@ namespace SuperTube.ViewModels
 
                 SearchTerm = string.Join(", ", allResults.Select(x => x.Title));
             }
-
-            IsSearching = false;
         }
 
-        private bool CanExecuteSearch(string query) => !IsSearching;
-
         public SearchPageViewModel() 
-        { 
+        {
+            PerformSearch = new AsyncRelayCommand(ExecuteSearchAsync);
         }
 
         ~SearchPageViewModel()
         {
             _searchTerm = null;
-            _isSearching = false;
             _searchResults = new List<SearchResult>();
         }
 

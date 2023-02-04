@@ -11,17 +11,17 @@
 
             <SearchBar x:Name="searchBar"
                 Placeholder="Search"
-                SearchCommand="{Binding PerformSearch}"
-                SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+                Text="{Binding SearchTerm}"
+                SearchCommand="{Binding PerformSearch}" />
 
             <ActivityIndicator 
-                IsVisible="{Binding IsSearching}"
-                IsRunning="{Binding IsSearching}" />
+                IsVisible="{Binding PerformSearch.IsRunning}"
+                IsRunning="{Binding PerformSearch.IsRunning}" />
     
 
         <Label 
-                IsVisible="{Binding SearchTerm}"
-                Text="{Binding SearchTerm}" />
+                IsVisible="{Binding SearchResults.Count}"
+                Text="{Binding SearchResults.Count}" />
 
         <CollectionView ItemsSource="{Binding SearchResults}">
             <CollectionView.ItemTemplate>
