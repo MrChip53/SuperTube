@@ -7,51 +7,47 @@
         <vm:SearchPageViewModel />
     </ContentPage.BindingContext>
     <StackLayout
-            Padding="30,0">
+        Padding="30,0"
+        Spacing="20.0" >
 
-            <SearchBar x:Name="searchBar"
-                Placeholder="Search"
-                Text="{Binding SearchTerm}"
-                SearchCommand="{Binding PerformSearch}" />
+        <SearchBar x:Name="searchBar"
+            Placeholder="Search"
+            Text="{Binding SearchTerm}"
+            SearchCommand="{Binding PerformSearch}" />
 
-            <ActivityIndicator 
-                IsVisible="{Binding PerformSearch.IsRunning}"
-                IsRunning="{Binding PerformSearch.IsRunning}" />
-    
-
-        <Label 
-                IsVisible="{Binding SearchResults.Count}"
-                Text="{Binding SearchResults.Count}" />
-
-        <CollectionView ItemsSource="{Binding SearchResults}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.RowSpan="2"
+        <Label Text="{Binding SearchResults.Count, StringFormat='Number of items: {0}'}" />
+        <RefreshView IsRefreshing="{Binding PerformSearch.IsRunning}"
+                     Command="{Binding PerformSearch}">
+            <CollectionView ItemsSource="{Binding SearchResults}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.RowSpan="2"
                                    Source="{Binding ImageUrl}"
                                    Aspect="AspectFill"
                                    HeightRequest="60"
                                    WidthRequest="60" />
-                        <Label Grid.Column="1"
+                            <Label Grid.Column="1"
                                    Text="{Binding Title}"
                                    FontAttributes="Bold" />
-                        <Label Grid.Row="1"
+                            <Label Grid.Row="1"
                                    Grid.Column="1"
                                    Text="{Binding Description}"
                                    FontAttributes="Italic"
                                    VerticalOptions="End" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
 
     </StackLayout>
 

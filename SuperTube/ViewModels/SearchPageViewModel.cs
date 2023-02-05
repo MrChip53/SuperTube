@@ -3,6 +3,7 @@ using SuperTube.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -19,7 +20,6 @@ namespace SuperTube.ViewModels
     internal class SearchPageViewModel : INotifyPropertyChanged
     {
         string _searchTerm = null;
-        List<SearchResult> _searchResults = new List<SearchResult>();
         public event PropertyChangedEventHandler PropertyChanged;
 
         public IAsyncRelayCommand PerformSearch { get; }
@@ -37,18 +37,7 @@ namespace SuperTube.ViewModels
             }
         }
 
-        public List<SearchResult> SearchResults
-        {
-            get => _searchResults;
-            set
-            {
-                if (value.Except(_searchResults).ToList().Count > 0)
-                {
-                    _searchResults = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        public ObservableCollection<SearchResult> SearchResults { get; private set; } = new ObservableCollection<SearchResult>();
 
         private async Task ExecuteSearchAsync()
         {
@@ -65,24 +54,18 @@ namespace SuperTube.ViewModels
 
                 var postArray = jsonObj["data"]["posts"].AsArray();
 
-                var allResults = new List<SearchResult>();
+                SearchResults.Clear();
 
                 foreach (var item in postArray)
                 {
-                    var result = new SearchResult
+                    SearchResults.Add(new SearchResult
                     {
                         Id = (string)item["id"],
                         ImageUrl = (string)item["images"]["imageFbThumbnail"]["url"],
                         Title = (string)item["title"],
                         Description = (string)item["description"]
-                    };
-
-                    allResults.Add(result);
+                    });
                 }
-
-                SearchResults = allResults;
-
-                SearchTerm = string.Join(", ", allResults.Select(x => x.Title));
             }
         }
 
@@ -94,7 +77,6 @@ namespace SuperTube.ViewModels
         ~SearchPageViewModel()
         {
             _searchTerm = null;
-            _searchResults = new List<SearchResult>();
         }
 
         public void OnPropertyChanged([CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

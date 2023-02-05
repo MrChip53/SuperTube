@@ -8,9 +8,9 @@ namespace SuperTube.Models
 {
     public class SearchResult
     {
-        public string Id;
-        public string ImageUrl;
-        public string Title;
-        public string Description;
+        public string Id { get; set; }
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
     }
 }
